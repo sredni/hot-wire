@@ -53,5 +53,24 @@ describe("hotwire/HotWire", function() {
 				expect(wired.fooClass).to.have.property("foo", "foo");
 			});
 		});
+
+		it("wires container service as alias", function() {
+			let hW = new HotWire();
+
+			return hW.wire({
+				"services": {
+					"fooClass": {
+						"plainObject": {"foo": true},
+						"public": true,
+					},
+					"fooAlias": {
+						"$ref": "fooClass",
+						"public": true,
+					},
+				},
+			}).then(function(wired) {
+				expect(wired.fooAlias).to.have.property("foo", true);
+			});
+		});
 	});
 });

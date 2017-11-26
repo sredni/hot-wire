@@ -54,6 +54,11 @@ class Resolver {
 			}
 		} else if (serviceDefinition.plainObject) {
 			service = serviceDefinition.plainObject;
+		} else if (serviceDefinition.$ref) {
+			let aliasServiceName = serviceDefinition.$ref;
+			let aliasServiceDefinition = this._containerConfig.services[aliasServiceName];
+
+			service = this._resolveService(aliasServiceDefinition, aliasServiceName);
 		} else {
 			throw new Error(`Service »${serviceName}«, is invalid: no way to instantiate it.`);
 		}
